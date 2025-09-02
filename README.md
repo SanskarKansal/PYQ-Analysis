@@ -51,8 +51,6 @@ npm i
 npm run dev
 ```
 
-
-
 ## NLP-Service(Python)
 ```
 cd nlp-service
