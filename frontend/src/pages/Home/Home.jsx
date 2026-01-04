@@ -100,70 +100,70 @@ function Home() {
     }
   };
 
-  const generatePotentialQuestions = async () => {
-  try {
-    const token = localStorage.getItem("token");
+//   const generatePotentialQuestions = async () => {
+//   try {
+//     const token = localStorage.getItem("token");
 
-    if (!aiResponse) {
-      console.error("No extracted questions available");
-      return;
-    }
-
-    const extractedQuestions = aiResponse
-      .split("\n")
-      .map(q => q.trim())
-      .filter(q => q.length > 0);
-
-    console.log("Extracted questions sent to backend:", extractedQuestions);
-
-    const response = await axios.post(
-      `${import.meta.env.VITE_URL}/api/ai/potentialQuestions`,
-      {
-        questions: extractedQuestions
-      },
-      {
-        headers: { Authorization: `Bearer ${token}` }
-      }
-    );
-
-    if (response.data && response.data.ans) {
-      setPotentialQuestions(response.data.ans);
-    } else {
-      console.error("No potential questions returned");
-    }
-
-  } catch (error) {
-    console.error("Error generating potential questions:", error);
-  }
-};
-
-// const generatePotentialQuestions = async () => {
-//     try {
-//       const token = localStorage.getItem("token");
-//       console.log("Sending request for potential questions...");
-//       const response = await axios.post(`${import.meta.env.VITE_URL}/api/ai/potentialQuestions`, {
-//         subject: selectedSubject,
-//         "questions": [
-//           "What is the operating system?",
-//           "How does virtual memory work?",
-//           "What is the difference between a process and a thread?"
-//         ]
-//       }, {
-//         headers: { Authorization: `Bearer ${token}` }
-//       });
-//       if (response.data && response.data.ans) {
-//         // console.log("Potential Questions Response:", response.data.ans);
-//         const filteredquestions = response.data.ans.slice(1);
-//         setPotentialQuestions(filteredquestions);
-//       } else {
-//         console.error("No response from AI for potential questions.");
-//       }
-//     } catch (error) {
-//       console.error("Error generating potential questions:", error);
-//     } finally {
-//       setLoading(false);
+//     if (!aiResponse) {
+//       console.error("No extracted questions available");
+//       return;
 //     }
-//   };
+
+//     const extractedQuestions = aiResponse
+//       .split("\n")
+//       .map(q => q.trim())
+//       .filter(q => q.length > 0);
+
+//     console.log("Extracted questions sent to backend:", extractedQuestions);
+
+//     const response = await axios.post(
+//       `${import.meta.env.VITE_URL}/api/ai/potentialQuestions`,
+//       {
+//         questions: extractedQuestions
+//       },
+//       {
+//         headers: { Authorization: `Bearer ${token}` }
+//       }
+//     );
+
+//     if (response.data && response.data.ans) {
+//       setPotentialQuestions(response.data.ans);
+//     } else {
+//       console.error("No potential questions returned");
+//     }
+
+//   } catch (error) {
+//     console.error("Error generating potential questions:", error);
+//   }
+// };
+
+const generatePotentialQuestions = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      console.log("Sending request for potential questions...");
+      const response = await axios.post(`${import.meta.env.VITE_URL}/api/ai/potentialQuestions`, {
+        subject: selectedSubject,
+        "questions": [
+          "What is the operating system?",
+          "How does virtual memory work?",
+          "What is the difference between a process and a thread?"
+        ]
+      }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (response.data && response.data.ans) {
+        // console.log("Potential Questions Response:", response.data.ans);
+        const filteredquestions = response.data.ans.slice(1);
+        setPotentialQuestions(filteredquestions);
+      } else {
+        console.error("No response from AI for potential questions.");
+      }
+    } catch (error) {
+      console.error("Error generating potential questions:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const toggleBookmark = (question) => {
     setBookmarkedQuestions((prev) =>
@@ -219,11 +219,13 @@ function Home() {
 
   const topics = [
     'CPU Scheduling',
-    'System Programming',
     'Deadlock',
+    'Multithreading',
     'Memory Management',
+    'System Programming',
     'Resource Allocation',
     'Synchronization',
+    'Storage Management',
   ];
 
   const generateSummary = async () => {
@@ -314,7 +316,7 @@ function Home() {
       {aiResponse && (
         <button
           onClick={() => {
-            if (!localStorage.getItem("loggedInUser")) {
+            if (!localStorage.getItem("token")) {
               setShowError(true);
             } else {
               generatePotentialQuestions();

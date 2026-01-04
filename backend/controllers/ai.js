@@ -113,6 +113,7 @@ export const generatePotentialQuestions = async (req, res) => {
     console.log("Gemini Response Received");
     
     const potentialQuestions = responseText
+    .replace(/[\[\]]/g, '')   
     .split('\n') // Split by newline
     .map(question => question.trim()) // Trim any extra spaces
     .filter(question => question.length > 0); // Filter out any empty strings
