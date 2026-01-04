@@ -100,7 +100,44 @@ function Home() {
     }
   };
 
-  const generatePotentialQuestions = async () => {
+//   const generatePotentialQuestions = async () => {
+//   try {
+//     const token = localStorage.getItem("token");
+
+//     if (!aiResponse) {
+//       console.error("No extracted questions available");
+//       return;
+//     }
+
+//     const extractedQuestions = aiResponse
+//       .split("\n")
+//       .map(q => q.trim())
+//       .filter(q => q.length > 0);
+
+//     console.log("Extracted questions sent to backend:", extractedQuestions);
+
+//     const response = await axios.post(
+//       `${import.meta.env.VITE_URL}/api/ai/potentialQuestions`,
+//       {
+//         questions: extractedQuestions
+//       },
+//       {
+//         headers: { Authorization: `Bearer ${token}` }
+//       }
+//     );
+
+//     if (response.data && response.data.ans) {
+//       setPotentialQuestions(response.data.ans);
+//     } else {
+//       console.error("No potential questions returned");
+//     }
+
+//   } catch (error) {
+//     console.error("Error generating potential questions:", error);
+//   }
+// };
+
+const generatePotentialQuestions = async () => {
     try {
       const token = localStorage.getItem("token");
       console.log("Sending request for potential questions...");

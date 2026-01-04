@@ -9,7 +9,7 @@ export const handleAiResponse = async (req, res) => {
     }
 
     const genAI = new GoogleGenerativeAI(process.env.API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
 
     const prompt = `
@@ -41,6 +41,49 @@ export const handleAiResponse = async (req, res) => {
   }
 };
 
+// export const generatePotentialQuestions = async (req, res) => {
+  
+//   try {
+//     const { questions } = req.body;
+
+//     if (!questions || questions.length === 0) {
+//       return res.status(400).json({ error: "No extracted questions provided" });
+//     }
+
+//     const genAI = new GoogleGenerativeAI(process.env.API_KEY);
+//     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+
+//     const prompt = `
+// You are given previously extracted exam questions.
+
+// Infer the core topics and generate NEW potential exam questions.
+
+// Rules:
+// - Do not repeat or rephrase existing questions
+// - Match exam difficulty and style
+// - Stay within inferred subject
+// - Return only questions, one per line
+
+// Extracted questions:
+// ${questions.join("\n")}
+// `;
+
+//     const result = await model.generateContent(prompt);
+//     const responseText = result.response.text();
+
+//     const potentialQuestions = responseText
+//       .split("\n")
+//       .map(q => q.trim())
+//       .filter(q => q.length > 0);
+
+//     return res.status(200).json({ ans: potentialQuestions });
+
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// };
+
 export const generatePotentialQuestions = async (req, res) => {
   try {
     const { questions } = req.body; 
@@ -50,7 +93,7 @@ export const generatePotentialQuestions = async (req, res) => {
     }
 
     const genAI = new GoogleGenerativeAI(process.env.API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
     const prompt = `
 
@@ -81,7 +124,6 @@ export const generatePotentialQuestions = async (req, res) => {
   }
 };
 
-
 export const generateTopicSummary = async (req, res) => {
   try {
     const { topic } = req.body; 
@@ -91,7 +133,7 @@ export const generateTopicSummary = async (req, res) => {
     }
 
     const genAI = new GoogleGenerativeAI(process.env.API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
     const prompt = `
       Generate a summary for ${topic} to make an undergraduate understand these concepts in 10 pointers
